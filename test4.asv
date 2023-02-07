@@ -1,0 +1,11 @@
+i_max = 16;
+i = 4;
+data = zeros(i_max - i, 8);
+while i < i_max
+    i = i + 1;
+    disp(i)
+    splitB = i;
+    splitA = i;
+    [F, T] = plot_magnetic_field_FT2(pi/3, pi/4, 0.1, splitB, splitA);
+    data(i,:) = [splitB, splitA, F, T];
+end

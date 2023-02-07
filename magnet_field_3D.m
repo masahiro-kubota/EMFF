@@ -1,0 +1,115 @@
+%[X,Y] = meshgrid(-0.15:0.015:0.15,-0.15:0.015:0.15);
+%U = 0.25*X;
+%V = 0.5*Y;
+%quiver3(X,Y,Y,U,V,Y)
+%quiver(1,1,1,1);
+
+%[X,Y,Z] = meshgrid(-0.15:0.015:0.15,-0.15:0.015:0.15,-0.15:0.015:0.15);
+
+%3Dに磁場の向きを表示
+ite = 3;
+%表示の細かさを調節
+
+
+[X,Y,Z] = meshgrid(linspace(-0.1,0.1,ite),linspace(-0.1,0.1,ite),linspace(-0.1,0.1,ite));
+
+%U = 0.25*X;
+%V = 0.5*Y;
+%W = 0.5*Z;
+
+%磁場を発生させるコイル
+I1_x = 0;
+I1_y = 0;
+I1_z = 1;
+a = 0.015;
+N = 1;
+%disp(size(X));
+
+
+
+%B_x = zeros(21,21,21);
+%B_y = zeros(21,21,21);
+%B_z = zeros(21,21,21);
+B_x = zeros(ite,ite,ite);
+B_y = zeros(ite,ite,ite);
+B_z = zeros(ite,ite,ite);
+%disp(X);
+i = 0;
+j = 0;
+k = 0;
+
+%力を受けるコイルの位置と電流
+x = 0.1;
+y = 0;
+z = 0;
+I2_x = 0;
+I2_y = 1;
+I2_z = 0;
+
+
+p = pi/4;
+q = 0;
+l = 0;
+
+while i < ite
+    i = i + 1;
+    j = 0;
+    while j < ite
+        j = j + 1;
+        %disp(j)
+        k = 0;
+        while k < ite
+            k = k + 1;
+            %B_x(i,j,k), B_y(i,j,k), B_z(i,j,k) = magnetic_flux(X(i,j,k), Y(i,j,k), Z(i,j,k), I, a, N);
+            B = magnetic_flux_three_coil(X(i,j,k), Y(i,j,k), Z(i,j,k), I1_x, I1_y, I1_z, a, N, p, q, l);
+            
+            B_x(i,j,k) = B(1);
+            B_y(i,j,k) = B(2);
+            B_z(i,j,k) = B(3);
+            
+        end 
+    end
+end
+
+
+[F, T] = Ampere(I2_x, I2_y, I2_z, I1_x, I1_y, I1_z, a, N, x, y, z, p, q, l);
+
+
+figure
+t = linspace(0,2*pi,100);
+quat = quaternion([p, q, l],'euler','XYZ','point');
+%coil_z = rotatepoint(quat,[a*sin(t); a*cos(t); zeros(1,100)].').';
+%plot3(coil_z(1,:), coil_z(2,:), coil_z(3,:))
+%plot3(a*sin(t),a*cos(t),zeros(1,100))
+
+
+coil_x = rotatepoint(quat,[zeros(1,100); a*sin(t); a*cos(t)].').';
+coil_y = rotatepoint(quat,[a*sin(t); zeros(1,100); a*cos(t)].').';
+coil_z = rotatepoint(quat,[a*sin(t); a*cos(t); zeros(1,100)].').';
+plot3(coil_x(1,:), coil_x(2,:), coil_x(3,:))
+hold on
+plot3(coil_y(1,:), coil_y(2,:), coil_y(3,:))
+plot3(coil_z(1,:), coil_z(2,:), coil_z(3,:))
+%磁場を作るコイル
+
+plot3(a*sin(t) + x,a*cos(t) + y ,zeros(1,100) + z)
+plot3(zeros(1,100) + x, a*sin(t) + y, a*cos(t) + z)
+plot3(a*sin(t) + x, zeros(1,100) + y, a*cos(t) + z)
+%電磁力を受けるコイル
+
+q1 = quiver3(x,y,z,F(1)*10^5,F(2)*10^5,F(3)*10^5);
+q1.Color = "red";
+q2 = quiver3(x,y,z,T(1)*10^5,T(2)*10^5,T(3)*10^5);
+q2.Color = "blue";
+disp(F)
+disp(T)
+%axis([-0.25,0.25,-0.25,0.25,-0.25,0.25])
+axis_norm = 0.2;
+axis([-axis_norm,axis_norm,-axis_norm,axis_norm,-axis_norm,axis_norm])
+axis square 
+grid on
+xlabel('X')
+ylabel('Y')
+zlabel('Z')
+quiver3(X,Y,Z,B_x,B_y,B_z)
+

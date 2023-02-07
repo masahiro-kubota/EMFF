@@ -1,0 +1,11 @@
+function B = magnetic_flux_three_coil(x, y, z, I_x, I_y, I_z, a, N)
+%半径a，巻き数Nの3つのコイルにI_x，I_y，I_zの電流が流れたときに（x, y, z）に発生する磁場
+%   Detailed explanation goes here
+
+p = pi/2;
+q = 0;
+l = 0;
+
+%B = magnetic_flux_x(x, y, z, I_x, a, N)  + magnetic_flux_y(x, y, z, I_y, a, N)  + magnetic_flux_z(x, y, z, I_z, a, N);%
+B = magnetic_flux_x2(x, y, z, I_x, a, N, p, q, l) + magnetic_flux_y2(x, y, z, I_y, a, N, p, q, l) + magnetic_flux_z(x, y, z, I_z, a, N);
+end
