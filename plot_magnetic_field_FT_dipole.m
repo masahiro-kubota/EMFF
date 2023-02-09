@@ -1,4 +1,4 @@
-function[F, T] = plot_magnetic_field_FT2(p1, q1, l1, p2, q2, l2, x, I1, I2, splitB, splitA)
+function[F, T] = plot_magnetic_field_FT_dipole(p1, q1, l1, p2, q2, l2, x)
 %磁場と電磁力を3D表示
 %2つのコイルの電流3次元，姿勢3次元から，磁場と電磁力を計算．
 %   Detailed explanation goes here
@@ -16,9 +16,9 @@ Y = 0;
 Z = 0;
 
 %磁場を発生させるコイル
-I1_x = I1(1);
-I1_y = I1(2);
-I1_z = I1(3);
+I1_x = 1;
+I1_y = 1;
+I1_z = 1;
 a = 0.015;
 N = 1;
 %p1 = 0;
@@ -31,24 +31,30 @@ N = 1;
 %x = 0.1;　変数
 y = 0;
 z = 0;
-I2_x = I2(1);
-I2_y = I2(2);
-I2_z = I2(3);
+I2_x = 1;
+I2_y = 1;
+I2_z = 1;
 %p2 = 0;
 %q2 = 0;
 %l2 = 0;　変数
 
+r = [x, 0, 0];
 
-[F, T] = Ampere2(I2_x, I2_y, I2_z, I1_x, I1_y, I1_z, a, N, x, y, z, p1, q1, l1, p2, q2, l2, splitB, splitA);
+A = pi*a^2;
+
+myu1 = N*A*[I1_x, I1_y, I1_z];
+myu2 = N*A*[I2_x, I2_y, I2_z];
+
+[F, T] = dipole2em_force_torque(myu1, myu2, r);
 
 
-
-B = magnetic_flux_three_coil(X, Y, Z, I1_x, I1_y, I1_z, a, N, p1, q1, l1, splitB);       
+B = dipole2m_field(myu1, [X, Y, Z]);    
 B_x = B(1);
 B_y = B(2);
 B_z = B(3);
+disp("B_dipole is" + B)
 
-disp("B_coil is " + B)
+
 
 figure
 t = linspace(0,2*pi,100);
@@ -75,9 +81,9 @@ plot3(coil2_y(1,:) + x, coil2_y(2,:) + y, coil2_y(3,:) + z)
 plot3(coil2_z(1,:) + x, coil2_z(2,:) + y, coil2_z(3,:) + z)
 %電磁力を受けるコイル
 
-q1 = quiver3(x,y,z,F(1)*10^5,F(2)*10^5,F(3)*10^5);
+q1 = quiver3(x,y,z,F(1)*10^7,F(2)*10^7,F(3)*10^7);
 q1.Color = "red";
-q2 = quiver3(x,y,z,T(1)*10^5,T(2)*10^5,T(3)*10^5, 10);
+q2 = quiver3(x,y,z,T(1)*10^7,T(2)*10^7,T(3)*10^7, 10);
 q2.Color = "blue";
 %disp(F)
 %disp(T)
@@ -88,7 +94,6 @@ grid on
 xlabel('X')
 ylabel('Y')
 zlabel('Z')
-quiver3(X,Y,Z,B_x,B_y,B_z, 1/(20 * norm([B_x B_y B_z])))
+quiver3(0,0,0,myu1(1),myu1(2),myu1(3), 1/(20*norm(myu1)))
 
 end
-

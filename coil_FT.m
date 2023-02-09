@@ -3,12 +3,14 @@
 p1 = 0;
 q1 = 0;
 l1 = 0;
+I1 = [1, 0, 0];
 
 %力を受けるコイル
 p2 = 0;
 q2 = 0;
-%l2 = 0;
+l2 = 0;
 x = 0.1;
+I2 = [1, 0, 0];
 
 
 
@@ -27,7 +29,7 @@ while i < ite1
     while j < ite2
         j = j + 1;
         l2 = l2 + 2*pi/ite2;
-        [F, T] = plot_magnetic_field_FT2(p1, q1, l1, p2, q2, l2, x, split, split);
+        [F, T] = plot_magnetic_field_FT2(p1, q1, l1, p2, q2, l2, x, I1, I2, split, split);
         disp((i - 1)*ite2 + j)
         data((i - 1)*ite2 + j,:) = [l1 l2 F(1) F(2) F(3) T(1) T(2) T(3), norm(F), norm(T)]; 
 
@@ -35,7 +37,7 @@ while i < ite1
         disp([l1, l2])
         disp([F, T])
 
-        ends
+    end
 end
 
 %figure
