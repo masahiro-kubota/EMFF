@@ -42,7 +42,7 @@ I2_z = I2(3);
 [F, T] = Ampere2(I2_x, I2_y, I2_z, I1_x, I1_y, I1_z, a, N, x, y, z, p1, q1, l1, p2, q2, l2, splitB, splitA);
 
 
-
+%{
 B = magnetic_flux_three_coil(X, Y, Z, I1_x, I1_y, I1_z, a, N, p1, q1, l1, splitB);       
 B_x = B(1);
 B_y = B(2);
@@ -91,4 +91,5 @@ zlabel('Z')
 quiver3(X,Y,Z,B_x,B_y,B_z, 1/(20 * norm([B_x B_y B_z])))
 
 end
+%}
 

@@ -3,14 +3,14 @@
 p1 = 0;
 q1 = 0;
 l1 = 0;
-I1 = [1/sqrt(2), 1/sqrt(2), 0];
+I1 = [1, 0, 0];
 
 %力を受けるコイル
 p2 = 0;
 q2 = 0;
 l2 = 0;
 x = 0.1;
-I2 = [1/sqrt(2), 1/sqrt(2), 0];
+I2 = [1, 0, 0];
 
 
 
@@ -20,7 +20,6 @@ i = 0;
 ite1 = 180;
 ite2 = 360;
 data = zeros(ite1*ite2, 10);
-data2 = zeros(ite1*ite2, 10);
 while i < ite1
     i = i + 1;
     l1 = l1 + pi/ite1;
@@ -31,16 +30,13 @@ while i < ite1
         j = j + 1;
         l2 = l2 + 2*pi/ite2;
         [F1, T1] = plot_magnetic_field_FT2(p1, q1, l1, p2, q2, l2, x, I1, I2, split, split);
-        %[F2, T2] = plot_magnetic_field_FT2(p2, q2, l2, p1, q1, l1, -x, I2, I1, split, split);
+        [F2, T2] = plot_magnetic_field_FT2(p2, q2, l2, p1, q1, l1, -x, I2, I1, split, split);
         disp((i - 1)*ite2 + j)
-        data((i - 1)*ite2 + j,:) = [l1 l2 F1(1) F1(2) F1(3) T1(1) T1(2) T1(3), norm(F1), norm(T1)];
-        %data2((i - 1)*ite2 + j,:) = [l1 l2 F2(1) F2(2) F2(3) T2(1) T2(2) T2(3), norm(F2), norm(T2)];
+        data((i - 1)*ite2 + j,:) = [l1 l2 F1(1) F1(2) F1(3) T1(1) T1(2) T1(3), norm(F1), norm(T1)]; 
 
-        
+        disp([i, j])
         disp([l1, l2])
         disp([F1, T1])
-        %disp([F2, T2])
-        disp([i, j])
 
     end
 end
