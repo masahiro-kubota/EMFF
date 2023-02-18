@@ -9,8 +9,12 @@ coil_FT.mで，色んな姿勢パターンでコイルに加わる力とトル�
 
 test3.mでトルクがほぼ0になる値をプロット
 test8.mで地球の磁場を計算
+test9.mはchatGPTで生成したコード．matlabで動画を生成し，保存するためのコード．
 
 coil_FT.mでいろんな相対姿勢でビオサバールとアンペールで電磁力とトルクを計算する．
 plot_magnetic_field_FT2.mで決められた相対姿勢，電流で発生る電磁力とトルクを計算する．
 
 dynamics2record.mで任意の場所から10^-5Nの上限でレコード盤軌道にもって行く制御
+
+dynamic2record_movie.mで1つの衛星がレコード盤軌道に投入されるシミュレーション動画．dynamics2record.mを改造．
+
