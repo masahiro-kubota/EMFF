@@ -11,14 +11,15 @@ function[F, T] = plot_magnetic_field_FT_dipole(p1, q1, l1, p2, q2, l2, x)
 
 
 %[X,Y,Z] = meshgrid(linspace(-0.1,0.1,ite),linspace(-0.1,0.1,ite),linspace(-0.1,0.1,ite));
-X = 0.1;
+%この場所での磁場ベクトルをdispで表示するだけ
+X = 10;
 Y = 0;
 Z = 0;
 
 %磁場を発生させるコイル
 I1_x = 1;
-I1_y = 1;
-I1_z = 1;
+I1_y = 2;
+I1_z = 3;
 a = 0.015;
 N = 1;
 %p1 = 0;
@@ -29,21 +30,28 @@ N = 1;
 
 %力を受けるコイルの位置と電流
 %x = 0.1;　変数
-y = 0;
-z = 0;
+y = 5;
+z = 1;
 I2_x = 1;
-I2_y = 1;
-I2_z = 1;
+I2_y = 2;
+I2_z = 3;
 %p2 = 0;
 %q2 = 0;
 %l2 = 0;　変数
 
-r = [x, 0, 0];
+r = [x, y, z];
 
 A = pi*a^2;
 
+quat1 = quaternion([p1, q1, l1],'euler','XYZ','point');
+quat2 = quaternion([p2, q2, l2],'euler','XYZ','point');
+
 myu1 = N*A*[I1_x, I1_y, I1_z];
 myu2 = N*A*[I2_x, I2_y, I2_z];
+myu1 = rotatepoint(quat1, myu1);
+myu2 = rotatepoint(quat2, myu2);
+
+
 
 [F, T] = dipole2em_force_torque(myu1, myu2, r);
 
@@ -60,7 +68,7 @@ figure
 t = linspace(0,2*pi,100);
 axis_norm = 0.2;
 
-quat1 = quaternion([p1, q1, l1],'euler','XYZ','point');
+
 
 coil1_x = rotatepoint(quat1,[zeros(1,100); a*sin(t); a*cos(t)].').';
 coil1_y = rotatepoint(quat1,[a*sin(t); zeros(1,100); a*cos(t)].').';
@@ -71,7 +79,7 @@ plot3(coil1_y(1,:), coil1_y(2,:), coil1_y(3,:))
 plot3(coil1_z(1,:), coil1_z(2,:), coil1_z(3,:))
 %磁場を作るコイル
 
-quat2 = quaternion([p2, q2, l2],'euler','XYZ','point');
+
 
 coil2_x = rotatepoint(quat2,[zeros(1,100); a*sin(t); a*cos(t)].').';
 coil2_y = rotatepoint(quat2,[a*sin(t); zeros(1,100); a*cos(t)].').';

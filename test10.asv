@@ -1,10 +1,8 @@
-
-%
 %コイルjの電流要素から見た，コイルkの電流要素の位置ベクトルを表示
 
 a = 0.015;
 x_j = [0, 0, 0];
-E_j = [pi/2, pi/3, pi/4];
+E_j = [0,0,0];
 q_j = quaternion(E_j,'euler','XYZ','point');
 theta = deg2rad(180);
 dl_j = rotatepoint(q_j, [-a*sin(theta), a*cos(theta), 0]);
@@ -15,8 +13,8 @@ x_jR0 = x_j + rotatepoint(q_j, [a, 0, 0]);
 %q_kj = quatmultiply(q_k, quatconj(q_j));
 %q_kk = q_kj * q_j;
 
-x_k = [10, 5, 1];
-E_k = [pi/5, pi/6, pi/7];
+x_k = [10, 0, 0];
+E_k = [0,0,0];
 q_k = quaternion(E_k,'euler','XYZ','point');
 phi = deg2rad(-120);
 dl_k = rotatepoint(q_k, [-a*sin(phi), a*cos(phi), 0]);
@@ -33,8 +31,8 @@ N = 1;
 split = 10;
 myu0 = 1.2566*10^(-6);
 
-i_j = [1 2 3] ;
-i_k = [1 2 3] ;
+i_j = [0 0 1] ;
+i_k = [0 0 1] ;
 
 %E_j = [pi/3,0,pi/4];
 %q_j = quaternion(E_j,'euler','XYZ','point');
@@ -42,11 +40,11 @@ I_j1 = zeros(1,3);
 I_j2 = zeros(1,3);
 I_j3 = zeros(1,3);
 
-for j = 1:3
-    I_j1 =  I_j1 + i_j(j)*calculateI(x_j, x_k, q_j, q_k, split, a, j, 1);
+for j = 2
+    %I_j1 =  I_j1 + i_j(j)*calculateI(x_j, x_k, q_j, q_k, split, a, j, 1);
     I_j2 =  I_j2 + i_j(j)*calculateI(x_j, x_k, q_j, q_k, split, a, j, 2);
     %disp(I_j2)
-    I_j3 =  I_j3 + i_j(j)*calculateI(x_j, x_k, q_j, q_k, split, a, j, 3);
+    %I_j3 =  I_j3 + i_j(j)*calculateI(x_j, x_k, q_j, q_k, split, a, j, 3);
     %disp(I_j3)
 end
 

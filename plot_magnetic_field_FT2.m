@@ -1,4 +1,4 @@
-function[F, T] = plot_magnetic_field_FT2(p1, q1, l1, p2, q2, l2, x, I1, I2, splitB, splitA)
+function[F, T] = plot_magnetic_field_FT2(quat1, quat2, X, I1, I2, splitB, splitA)
 %磁場と電磁力を3D表示
 %2つのコイルの電流3次元，姿勢3次元から，磁場と電磁力を計算．
 %   Detailed explanation goes here
@@ -11,16 +11,16 @@ function[F, T] = plot_magnetic_field_FT2(p1, q1, l1, p2, q2, l2, x, I1, I2, spli
 
 
 %[X,Y,Z] = meshgrid(linspace(-0.1,0.1,ite),linspace(-0.1,0.1,ite),linspace(-0.1,0.1,ite));
-X = 0.1;
-Y = 0;
-Z = 0;
+%X = 10;
+%Y = 0;
+%Z = 0;
 
 %磁場を発生させるコイル
 I1_x = I1(1);
 I1_y = I1(2);
 I1_z = I1(3);
 a = 0.015;
-N = 1;
+N = 17;
 %p1 = 0;
 %q1 = 0;
 %l1 = 0;%変数
@@ -28,9 +28,9 @@ N = 1;
 
 
 %力を受けるコイルの位置と電流
-%x = 0.1;　変数
-y = 0;
-z = 0;
+x = X(1);
+y = X(2);
+z = X(3);
 I2_x = I2(1);
 I2_y = I2(2);
 I2_z = I2(3);
@@ -39,7 +39,7 @@ I2_z = I2(3);
 %l2 = 0;　変数
 
 
-[F, T] = Ampere2(I2_x, I2_y, I2_z, I1_x, I1_y, I1_z, a, N, x, y, z, p1, q1, l1, p2, q2, l2, splitB, splitA);
+[F, T] = Ampere2(I2_x, I2_y, I2_z, I1_x, I1_y, I1_z, a, N, x, y, z, quat1, quat2, splitB, splitA);
 
 
 %{
@@ -91,5 +91,5 @@ zlabel('Z')
 quiver3(X,Y,Z,B_x,B_y,B_z, 1/(20 * norm([B_x B_y B_z])))
 
 end
-%}
 
+%}

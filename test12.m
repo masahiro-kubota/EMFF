@@ -4,7 +4,7 @@
 
 a = 0.015;
 x_j = [0, 0, 0];
-E_j = [pi/2, pi/3, pi/4];
+E_j = [0, 0, 0];
 q_j = quaternion(E_j,'euler','XYZ','point');
 theta = deg2rad(180);
 dl_j = rotatepoint(q_j, [-a*sin(theta), a*cos(theta), 0]);
@@ -15,8 +15,8 @@ x_jR0 = x_j + rotatepoint(q_j, [a, 0, 0]);
 %q_kj = quatmultiply(q_k, quatconj(q_j));
 %q_kk = q_kj * q_j;
 
-x_k = [10, 5, 1];
-E_k = [pi/5, pi/6, pi/7];
+x_k = [0.1, 0, 0];
+E_k = [0, 0, 0];
 q_k = quaternion(E_k,'euler','XYZ','point');
 phi = deg2rad(-120);
 dl_k = rotatepoint(q_k, [-a*sin(phi), a*cos(phi), 0]);
@@ -29,12 +29,12 @@ r_jk = x_kR - x_jR;
 
 
 a = 0.015;
-N = 1;
+N = 17;
 split = 10;
 myu0 = 1.2566*10^(-6);
 
-i_j = [1 2 3] ;
-i_k = [1 2 3] ;
+i_j = [10^5 0 0] ;
+i_k = [-12.8590 23.4464 23.4464] ;
 
 %E_j = [pi/3,0,pi/4];
 %q_j = quaternion(E_j,'euler','XYZ','point');
@@ -50,13 +50,17 @@ for j = 1:3
     %disp(I_j3)
 end
 
+
+
 S = N*[I_j1.', I_j2.', I_j3.'];
 %disp(S)
 F = myu0/(4*pi)*N*S*i_k.';
+
+%F = [10^-14, 10^-14, 10^-14].';
+disp('F is ')
 disp(F)
-
-
-
+i_mat = 4*pi/(myu0*N)*(S\F);
+%disp(i_mat)
 
 
 
@@ -81,8 +85,3 @@ axis_norm = 0.2;
 axis([-axis_norm,axis_norm,-axis_norm,axis_norm,-axis_norm,axis_norm])
 axis square
 grid on
-
-
-
-
-

@@ -29,7 +29,7 @@ r_jk = x_kR - x_jR;
 
 
 a = 0.015;
-N = 1;
+N = 17;
 split = 10;
 myu0 = 1.2566*10^(-6);
 
@@ -53,10 +53,11 @@ end
 S = N*[I_j1.', I_j2.', I_j3.'];
 %disp(S)
 F = myu0/(4*pi)*N*S*i_k.';
-disp(F)
 
+%F = [10^-5, 10^-5, 10^-5].';
 
-
+i_mat = 4*pi/(myu0*N)*(S\F);
+disp(i_mat)
 
 
 
@@ -81,8 +82,3 @@ axis_norm = 0.2;
 axis([-axis_norm,axis_norm,-axis_norm,axis_norm,-axis_norm,axis_norm])
 axis square
 grid on
-
-
-
-
-

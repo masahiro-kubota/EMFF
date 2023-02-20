@@ -1,0 +1,28 @@
+%所望の力から電流に変える．
+
+a = 0.015;
+x_j = [0, 0, 0];
+x_k = [0.1, 0, 0];
+
+E_j = [0, 0, 0];
+E_k = [0, 0, 0];
+
+q_j = quaternion(E_j,'euler','XYZ','point');
+q_k = quaternion(E_k,'euler','XYZ','point');
+split = 10;
+
+
+i_max = 1;
+I1 = x_k*i_max/max(x_k);
+disp("I1 is " + num2str(I1))
+F = [1, 0, 0]*10^-6;
+
+i_mat = force2current(F, a, i_max, I1, x_j, x_k, q_j, q_k);
+
+disp('I_mat is ')
+disp(i_mat)
+
+F = myu0/(4*pi)*N*(S*i_mat);
+disp(F)
+[F, T] = plot_magnetic_field_FT2(q_j, q_k, x_k, I1, i_mat, 10, 10);
+disp(F)

@@ -1,4 +1,4 @@
-function B = magnetic_flux_y2(x, y, z, I, a, N, p, q, l, split) 
+function B = magnetic_flux_y2(x, y, z, I, a, N, quat, split) 
 % Calculate the magnetic field vector created at (x, y, z) by the coil with radius a, number of turns N, and current I at the origin
 %   Detailed explanation goes here
 myu = 1.2566*10^(-6); %
@@ -16,7 +16,7 @@ y = 0;
 z = 0;
 %}
 
-quat = quaternion([p,q,l],'euler','XYZ','point');
+
 phi = 0;
 
 
