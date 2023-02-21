@@ -168,7 +168,11 @@ end
 toc
 
 
+%フレームレート
+Fs = 30; 
 
+%表示間引き数　（表示間引き数×フレームレート×サンプリングタイム）＝n倍速となる
+Th = 10;
 
 %各時刻での電磁力の大きさをグラフ化
 figure
@@ -225,11 +229,9 @@ dateformat = 'yyyy-MM-dd-HH-mm-ss';
 % 日時をファイル名に追加
 filename = sprintf('movie/dynamics2record_%s.avi', datetime('now','Format', dateformat));
 
-%フレームレート
-Fs = 30; 
 
-%表示間引き数　（表示間引き数×フレームレート×サンプリングタイム）＝n倍速となる
-Th = 10;
+
+
 
 % 動画の準備
 vidObj = VideoWriter(filename); % 動画ファイル名
